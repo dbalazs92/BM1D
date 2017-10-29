@@ -6,6 +6,7 @@ Brownian movement in one dimension. Starter pack for data processing course from
 
 * **Balázs Demeter** - *University of Debrecen* - [E-mail](mailto:balazsdemeter92@gmail.com)
 * **Balázs Ujvári** - *University of Debrecen* - [E-mail](mailto:balazs.ujvari@science.unideb.hu)
+* **Dávid Baranyai** - *University of Debrecen* - [E-mail](mailto:divaldo95@gmail.com)
 
 ### Requirements
 

@@ -1,4 +1,4 @@
-/// BM1D program. Date: 2017-10-29 Creators: Balázs Demeter, Balázs Ujvári 
+/// BM1D program. Date: 2017-10-29 Creators: Balázs Demeter, Balázs Ujvári, Dávid Baranyai
 
 #include <iostream>
 #include "Progress.hh"
