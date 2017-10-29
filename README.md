@@ -51,6 +51,8 @@ If there's command line argument, then program opens the created root file. Name
 
 ## Updates
 
+* 2017/10/29 - 'v1.3' - Minor fixes in Progress
+
 * 2017/10/29 - 'v1.2' - Creation of reloaded version and it's repository
 
 * 2015/10/27 - 'v1.0' - Creation of program
