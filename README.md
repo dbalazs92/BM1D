@@ -8,7 +8,7 @@ Brownian movement in one dimension. Starter pack for data processing course from
 * **Balázs Ujvári** - *University of Debrecen* - [E-mail](mailto:balazs.ujvari@science.unideb.hu)
 * **Dávid Baranyai** - *University of Debrecen* - [E-mail](mailto:divaldo95@gmail.com)
 
-### Requirements
+## Requirements
 
 * Linux (Tested on Ubuntu 16.04 LTS)
 * CERN ROOT (Tested on v6.10/08)
