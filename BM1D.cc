@@ -23,7 +23,7 @@ void OpenRootFile()
 
 int main(int argc, char* argv[])
 {
-	Int_t n = 1000;
+	Int_t n = 1000, p0 = 1, start = 0;
 	
 	TApplication App("tapp", &argc, argv);
 	TCanvas* Canv = new TCanvas("c10","Live display",800,400);
@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
 	else
 	{
 		
-		Progress* Pr1 = new Progress(n);
-		Progress* Pr2 = new Progress(n);
+		Progress* Pr1 = new Progress(n,p0,start);
+		Progress* Pr2 = new Progress(n,p0,start);
 		
 		Pr1->Count('u');
 		Pr2->Count('g');

@@ -31,46 +31,32 @@ void Progress::Count(char a)
     {
         if(i==0)
         {
-            x.push_back(0.0);
+            x.push_back(p0);
             y.push_back(0.0);
         }
-
-        y.push_back((Double_t)i);
         
-        switch(a)
-        {
+        x.push_back(GetNext(a));
+		y.push_back(steps);
+    }
+}
+
+Double_t Progress::GetNext(char a)
+{
+		switch(a){
 			case 'u':
-			if(random1->Uniform()>=0.5)
-			{
-            x.push_back(x[i-1]-0.1);
-			}
-			else
-			{
-            x.push_back(x[i-1]+0.1);
-			}
+			preVstate+=random1->Uniform(-p0,p0);
 			break;
 			
 			case 'g':
-			if(random1->Gaus()>=0.5)
-			{
-            x.push_back(x[i-1]-0.1);
-			}
-			else
-			{
-            x.push_back(x[i-1]+0.1);
-			}
+			preVstate+=random1->Gaus(-p0,p0);
 			break;
 			
 			default:
 			std::cout<<"Invalid argument!"<<std::endl;
+			preVstate+=0.0;
 			break;
 		}
-    }
-}
-
-Double_t Progress::GetNext()
-{
-        preVstate+=fmod(random1->Uniform(),(2*p0)-p0);
+        
         steps++;
         return preVstate;
 }

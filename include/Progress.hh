@@ -32,7 +32,7 @@ public:
  
  Double_t GetP0();
  Int_t GetSteps();
- Double_t GetNext();
+ Double_t GetNext(char a);
  Double_t GetPrevious();
  
  void SetP0(double p0_new);
