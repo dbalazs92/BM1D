@@ -1,10 +1,6 @@
 #!/bin/bash
-#
-# Author: Balázs Demeter (balazsdemeter92@gmail.com)
-# Version: 1.0
-#
-# Script for build and make Brownian movement in one dimension
 
+rm -rf bm1d_build
 mkdir bm1d_build
 cd bm1d_build
 cmake ../
