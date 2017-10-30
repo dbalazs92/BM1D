@@ -5,8 +5,8 @@ Plotter::Plotter()
    fOut = new TFile("result.root", "RECREATE");
    canv = new TCanvas("canc","display",800,400);
    BM1DTree = new TTree("BM1DTree","BM1DTree");
-   BM1DTree->Branch("tl",&tl, "tl/D");
-   BM1DTree->Branch("xl",&xl, "xl/D");
+   BM1DTree->Branch("t",&tl, "t/D");
+   BM1DTree->Branch("x",&xl, "x/D");
    
 }
 void Plotter::Plot(Int_t n, std::vector<Double_t> t, std::vector<Double_t> x){
