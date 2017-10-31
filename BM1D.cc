@@ -35,6 +35,19 @@ int main(int argc, char* argv[])
     else
     {
         //default runs with less parameters
+		random_type = 'l';
+		nSteps = 1000;
+		nRuns = 10;
+		p0 = 0.5;
+		p1 = 0;
+		x1 = 20;
+		x2 = 30;
+		mu1 = 2;
+		mu2 = 2;
+		sigma1 = 0.3;
+		sigma2 = 1;
+		vis = 1;
+		typeOfRun = 1;
     }
 
 
@@ -55,7 +68,7 @@ int main(int argc, char* argv[])
             break;
     }
 
-  Plotter* myPlotter = new Plotter(true);
+  Plotter* myPlotter = new Plotter(vis==1);
   myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX()); 
 
   App.Run();

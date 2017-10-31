@@ -1,13 +1,12 @@
 #include "Plotter.hh"
 
-Plotter::Plotter(bool draw)
+Plotter::Plotter(bool draw_par = false)
 {
+draw = draw_par;
 if(draw)
   {
-	draw = draw;
 	canv = new TCanvas("canc","display",800,400);
   }
-//g1 = new TGraph();
 mg = new TMultiGraph();
 }
 void Plotter::Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::vector<Double_t> x)
