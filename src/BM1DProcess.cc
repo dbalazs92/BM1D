@@ -15,6 +15,9 @@ BM1DProcess::~BM1DProcess()
 
 void BM1DProcess::Run(int nRuns, int nSteps, double p0, double p1)
 {
+	t.clear();
+	x.clear();
+	
 	for(int i = 0; i < nRuns; i++) //multiple runs
 		{
 			t.push_back(0.0);  //let's start at t=0, x=0, you can change it if you vant, please use Set methods
@@ -50,6 +53,9 @@ void BM1DProcess::Run(int nRuns, int nSteps, double p0, double p1)
 
 void BM1DProcess::Run(int nRuns, int nSteps, double p0, double mu, double sigma)
 {
+	t.clear();
+	x.clear();
+	
 	for(int i = 0; i < nRuns; i++) //multiple runs
 		{
 			t.push_back(0.0);  //let's start at t=0, x=0, you can change it if you vant, please use Set methods
@@ -77,6 +83,9 @@ void BM1DProcess::Run(int nRuns, int nSteps, double p0, double mu, double sigma)
 
 void BM1DProcess::Run(int nRuns, int nSteps, double p0, double x1, double x2, double mu1, double sigma1, double mu2, double sigma2)
 {
+	t.clear();
+	x.clear();
+	
 	for(int i = 0; i < nRuns; i++) //multiple runs
 		{
 			t.push_back(0.0);  //let's start at t=0, x=0, you can change it if you vant, please use Set methods
