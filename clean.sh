@@ -1,2 +1,2 @@
 rm *.root
-rm -rf bm1d_build
+rm -rf ../bm1d_build
