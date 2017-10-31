@@ -7,30 +7,30 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Int_t nSteps, nRuns, p0,p1,p2,p3;
+    Int_t nSteps, nRuns, x0,x1,x2,x3;
     Double_t mu1, mu2, sigma1, sigma2;
     string fileName="input.root";
-    string random_type="u";
+    char random_type='u';
     Int_t vis, typeOfRun;
 
-    nSteps=nRuns=p0=p1=p2=p3=vis=typeOfRun=0;
+    nSteps=nRuns=x0=x1=x2=x3=vis=typeOfRun=0;
     mu1=mu2=sigma1=sigma2=0.0;
     if(argc==15)
     {
         nSteps=atoi(argv[1]);
         nRuns=atoi(argv[2]);
-        p0=atoi(argv[3]);
-        p1=atoi(argv[4]);
-        p2=atoi(argv[5]);
-        p3=atoi(argv[6]);
+        x0=atoi(argv[3]);
+        x1=atoi(argv[4]);
+        x2=atoi(argv[5]);
+        x3=atoi(argv[6]);
         mu1=atof(argv[7]);
         mu2=atof(argv[8]);
         sigma1=atof(argv[9]);
         sigma2=atof(argv[10]);
         fileName=argv[11];
-        random_type=argv[12];
-        vis=atoi(argv[1]); if((vis!=0)||(vis!=1)){vis=0;}
-        typeOfRun=atoi(argv[2]); if((typeOfRun!=0)||(typeOfRun!=1)||(typeOfRun!=2)){typeOfRun=0;}
+        random_type=argv[13][0];
+        vis=atoi(argv[14]); if((vis!=0)||(vis!=1)){vis=0;}
+        typeOfRun=atoi(argv[15]); if((typeOfRun!=0)||(typeOfRun!=1)||(typeOfRun!=2)){typeOfRun=0;}
     }
     else
     {
@@ -42,7 +42,21 @@ int main(int argc, char* argv[])
   Int_t n = 1000;
   BM1DProcess *myBM1DProcess = new BM1DProcess(n);
   myBM1DProcess->Init();
-  myBM1DProcess->Run();
+    switch(random_type){
+        case 'u':
+            myBM1DProcess->Run(nRuns, nSteps, x0, x1);
+            break;
+        case 'g':
+            myBM1DProcess->Run(nRuns, nSteps, x0, mu1, sigma1);
+            break;
+        case 'l':
+            myBM1DProcess->Run(nRuns, nSteps, x0, x1, x2, mu1, sigma1, mu2, sigma2);
+            break;
+        default:
+            cout<<"ERROR! Wrong parameter for type of random generator! \n No run!"<<endl;
+            break;
+    }
+
   Plotter* myPlotter = new Plotter();
   myPlotter->Plot(n, myBM1DProcess->GetT(), myBM1DProcess->GetX());
 
