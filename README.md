@@ -51,6 +51,8 @@ If there's command line argument, then program opens the created root file. Name
 
 ## Updates
 
+* 2017/10/31 - 'v1.5' - Added cleaner script, modified setup script and added command line inputs
+
 * 2017/10/30 - 'v1.4' - New Structure
 
 * 2017/10/29 - 'v1.3.1' - Release Candidate
