@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
     Int_t nSteps, nRuns;
 	Double_t p0,p1,x1,x2;
     Double_t mu1, mu2, sigma1, sigma2;
-    string fileName="input.root";
+	const char* fileName="input.root";
     char random_type='u';
     Int_t vis, typeOfRun;
 
@@ -32,8 +32,8 @@ int main(int argc, char* argv[])
         sigma2=atof(argv[10]);
         fileName=argv[11];
         random_type=argv[12][0];
-        vis=atoi(argv[13]); if((vis!=0)||(vis!=1)){vis=0;}
-        typeOfRun=atoi(argv[14]); if((typeOfRun!=0)||(typeOfRun!=1)||(typeOfRun!=2)){typeOfRun=0;}
+        vis=atoi(argv[13]); if((vis!=0)&&(vis!=1)){vis=0;}
+        typeOfRun=atoi(argv[14]); if((typeOfRun!=0)&&(typeOfRun!=1)&&(typeOfRun!=2)){typeOfRun=0;}
     }
     else
     {
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
   	  myAnalyse->AnalyseGaus(myBM1DProcess->GetT(),myBM1DProcess->GetX());
   }
   BM1DSave *save = new BM1DSave();
-  save->SaveToTree(myPlotter->GetTmultiGraph(), p0, p1, nSteps, nRuns, x1, x2, mu1, mu2, sigma1, sigma2, myBM1DProcess->GetT(), myBM1DProcess->GetX());
+  save->SaveToTree(myPlotter->GetTmultiGraph(), p0, p1, nSteps, nRuns, x1, x2, mu1, mu2, sigma1, sigma2, myBM1DProcess->GetT(), myBM1DProcess->GetX(),fileName);
   App.Run();
   return 0;
 }
