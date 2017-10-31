@@ -7,22 +7,23 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    Int_t nSteps, nRuns, p0,p1,x1,x2;
+    Int_t nSteps, nRuns;
+	Double_t p0,p1,x1,x2;
     Double_t mu1, mu2, sigma1, sigma2;
     string fileName="input.root";
     char random_type='u';
     Int_t vis, typeOfRun;
 
-    nSteps=nRuns=p0=p1=x1=x2=vis=typeOfRun=0;
-    mu1=mu2=sigma1=sigma2=0.0;
+    nSteps=nRuns=vis=typeOfRun=0;
+    mu1=mu2=sigma1=sigma2=p0=p1=x1=x2=0.0;
     if(argc==15)
     {
         nSteps=atoi(argv[1]);
         nRuns=atoi(argv[2]);
-        p0=atoi(argv[3]);
-        p1=atoi(argv[4]);
-        x1=atoi(argv[5]);
-        x2=atoi(argv[6]);
+        p0=atof(argv[3]);
+        p1=atof(argv[4]);
+        x1=atof(argv[5]);
+        x2=atof(argv[6]);
         mu1=atof(argv[7]);
         mu2=atof(argv[8]);
         sigma1=atof(argv[9]);
@@ -35,17 +36,17 @@ int main(int argc, char* argv[])
     else
     {
         //default runs with less parameters
-		random_type = 'l';
+		random_type = 'g';
 		nSteps = 1000;
-		nRuns = 10;
+		nRuns = 1;
 		p0 = 0.5;
 		p1 = 0;
-		x1 = 20;
-		x2 = 30;
-		mu1 = 2;
-		mu2 = 2;
-		sigma1 = 0.3;
-		sigma2 = 1;
+		x1 = 0;
+		x2 = 0;
+		mu1 = 1;
+		mu2 = 0;
+		sigma1 = 2;
+		sigma2 = 0;
 		vis = 1;
 		typeOfRun = 1;
     }
