@@ -10,9 +10,9 @@ BM1DSave::~BM1DSave()
 }
 
 
-void BM1DSave::SaveToTree(TMultiGraph *mg, Int_t p0, Int_t p1, Int_t nSteps, Int_t nRuns, Double_t x1, Double_t x2, Double_t mu1, Double_t mu2, Double_t sigma1, Double_t sigma2, std::vector<Double_t> t, std::vector<Double_t> x)
+void BM1DSave::SaveToTree(TMultiGraph *mg, Int_t p0, Int_t p1, Int_t nSteps, Int_t nRuns, Double_t x1, Double_t x2, Double_t mu1, Double_t mu2, Double_t sigma1, Double_t sigma2, std::vector<Double_t> t, std::vector<Double_t> x, const char* filename)
 {
-  fOut = new TFile("result.root", "RECREATE");
+  fOut = new TFile(filename, "RECREATE");
   TTree *BM1DTree = new TTree("BM1DTree","BM1DTree");
   TTree *DataTree = new TTree("DataTree","DataTree");
   
