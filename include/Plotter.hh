@@ -27,11 +27,14 @@ public:
   void Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::vector<Double_t> x);
   TMultiGraph * GetTmultiGraph();
   
+  static unsigned int IDCounter;
+  
 private:
   bool draw;
   TMultiGraph *mg;
   TGraph* g1;
   TCanvas* canv;
   Double_t tl,xl;
+  unsigned int ID;
 };
 #endif
