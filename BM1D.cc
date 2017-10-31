@@ -55,8 +55,8 @@ int main(int argc, char* argv[])
             break;
     }
 
-  Plotter* myPlotter = new Plotter();
-  myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX(), true); 
+  Plotter* myPlotter = new Plotter(true);
+  myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX()); 
 
   App.Run();
   return 0;
