@@ -39,9 +39,7 @@ int main(int argc, char* argv[])
 
 
   TApplication App("tapp", &argc, argv);
-  Int_t n = 1000;
-  BM1DProcess *myBM1DProcess = new BM1DProcess(n);
-  myBM1DProcess->Init();
+  BM1DProcess *myBM1DProcess = new BM1DProcess();
     switch(random_type){
         case 'u':
             myBM1DProcess->Run(nRuns, nSteps, p0, p1);
@@ -58,7 +56,7 @@ int main(int argc, char* argv[])
     }
 
   Plotter* myPlotter = new Plotter();
-  myPlotter->Plot(n, myBM1DProcess->GetT(), myBM1DProcess->GetX());
+  myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX(), true); 
 
   App.Run();
   return 0;
