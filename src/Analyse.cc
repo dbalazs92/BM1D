@@ -1,6 +1,8 @@
 #include "Analyse.hh"
 
-Analyse::Analyse() : _p0(0), _mu(0), _sigma(0) {}
+Analyse::Analyse() : _p0(0), _mu(0), _sigma(0) {
+	canvA = new TCanvas("cancA","display",800,400);	
+	}
 
 Analyse::~Analyse() {;}
 
@@ -26,7 +28,7 @@ void Analyse::AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x){
 	
 	
 	Double_t dx = 0.0;
-	Double_t q = 10000;
+	Double_t q = 100000000;
 	Double_t max =  std::numeric_limits<int>::min();
 	Double_t min = std::numeric_limits<int>::max();
 	
@@ -41,12 +43,8 @@ void Analyse::AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x){
 		if(TMath::Abs(x[i]-x[i-1]) < dx) _p0 += 1.0;
 	}
 	
-	//std::cout << "t.size " << t.size() << std::endl;
-	
 	_p0 /= (Double_t)t.size();
-	
-	//std::cout << "p0 = " << _p0 << std::endl;
-	
+		
 	
 	std::vector<Double_t> deltax;
 	
@@ -61,8 +59,6 @@ void Analyse::AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x){
 
 		}
 		
-		
-		//std::cout << deltax[i-1] << std::endl;
 	}
 	
 		
@@ -76,20 +72,18 @@ void Analyse::AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x){
 	}
 	
 	
-	Int_t nbin = (max-min)/0.1;
-	
-	//std::cout << nbin << std::endl;	
+	Int_t nbin = (max-min)/0.1;	
 	
 	TH1D* dxhisto = new TH1D("dxhisto","dxhisto", nbin, min+0.1*min,max+0.1*max);
 	
 	for (int i = 0; i < deltax.size(); i++) dxhisto->Fill(deltax[i]);
 	
+	
+	canvA->cd();
+	
 	dxhisto->Fit("gaus");
 	
 	dxhisto->Draw();
-
-	
-	//std::cout << dxhisto->GetFunction("gaus")->GetParameter(1) <<std::endl;
 	
 	_mu = dxhisto->GetFunction("gaus")->GetParameter(1);
 	_sigma = dxhisto->GetFunction("gaus")->GetParameter(2);

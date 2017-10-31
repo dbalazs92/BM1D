@@ -10,6 +10,7 @@
 #include "TH1.h"
 #include "TF1.h"
 #include "TMath.h"
+#include "TCanvas.h"
 
 
 class Analyse{
@@ -28,6 +29,7 @@ private:
 	Double_t _p0;
 	Double_t _mu;
 	Double_t _sigma;
+	TCanvas* canvA;
 
 };
 
