@@ -3,6 +3,7 @@
 #include "Plotter.hh"
 #include "TApplication.h"
 #include "Analyse.hh"
+#include "BM1DSave.hh"
 
 using namespace std;
 
@@ -30,9 +31,9 @@ int main(int argc, char* argv[])
         sigma1=atof(argv[9]);
         sigma2=atof(argv[10]);
         fileName=argv[11];
-        random_type=argv[13][0];
-        vis=atoi(argv[14]); if((vis!=0)||(vis!=1)){vis=0;}
-        typeOfRun=atoi(argv[15]); if((typeOfRun!=0)||(typeOfRun!=1)||(typeOfRun!=2)){typeOfRun=0;}
+        random_type=argv[12][0];
+        vis=atoi(argv[13]); if((vis!=0)||(vis!=1)){vis=0;}
+        typeOfRun=atoi(argv[14]); if((typeOfRun!=0)||(typeOfRun!=1)||(typeOfRun!=2)){typeOfRun=0;}
     }
     else
     {
@@ -79,7 +80,8 @@ int main(int argc, char* argv[])
   	case 'g' :
   	  myAnalyse->AnalyseGaus(myBM1DProcess->GetT(),myBM1DProcess->GetX());
   }
-
+  BM1DSave *save = new BM1DSave();
+  save->SaveToTree(myPlotter->GetTmultiGraph(), p0, p1, nSteps, nRuns, x1, x2, mu1, mu2, sigma1, sigma2, myBM1DProcess->GetT(), myBM1DProcess->GetX());
   App.Run();
   return 0;
 }
