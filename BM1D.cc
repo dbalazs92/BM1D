@@ -2,6 +2,7 @@
 #include "BM1DProcess.hh"
 #include "Plotter.hh"
 #include "TApplication.h"
+#include "Analyse.hh"
 
 using namespace std;
 
@@ -71,6 +72,9 @@ int main(int argc, char* argv[])
 
   Plotter* myPlotter = new Plotter(vis==1);
   myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX()); 
+  
+  Analyse *myAnalyse = new Analyse();
+  myAnalyse->AnalyseGaus(myBM1DProcess->GetT(),myBM1DProcess->GetX());
 
   App.Run();
   return 0;
