@@ -1,36 +1,39 @@
 #include "Plotter.hh"
 
-Plotter::Plotter()
+Plotter::Plotter(bool draw)
 {
-   fOut = new TFile("result.root", "RECREATE");
-   canv = new TCanvas("canc","display",800,400);
-   BM1DTree = new TTree("BM1DTree","BM1DTree");
-   BM1DTree->Branch("t",&tl, "t/D");
-   BM1DTree->Branch("x",&xl, "x/D");
-   
+if(draw)
+  {
+	draw = draw;
+	canv = new TCanvas("canc","display",800,400);
+  }
+//g1 = new TGraph();
+mg = new TMultiGraph();
 }
-void Plotter::Plot(Int_t n, std::vector<Double_t> t, std::vector<Double_t> x){
-  g1 = new TGraph(n,&t[0],&x[0]);
-  canv->cd();
-  g1->Draw();
-  g1->SetLineColor(1);
-  g1->SetLineWidth(1);
-  g1->SetMarkerColor(1);
-  g1->SetMarkerStyle(0);
-  g1->SetTitle("Brownian Movement D=1");
-  g1->GetYaxis()->SetTitle("X");
-  g1->GetXaxis()->SetTitle("Time");
+void Plotter::Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::vector<Double_t> x)
+{
+  mg->SetTitle("BM1D");
   
-  // for (unsigned int i = 0; i < t.size(); i++){
-  for (unsigned int i = 0; i < n; i++){
-    tl = t[i];
-    xl = x[i];
-    BM1DTree->Fill();
+  for(int i= 0; i < numRuns; i++)
+  { 
+		g1 = new TGraph(nSteps,&t[i*nSteps],&x[i*nSteps]);
+		
+		g1->SetLineColor(i+1);
+		g1->SetTitle("Brownian Movement");
+		g1->GetYaxis()->SetTitle("X");
+		g1->GetXaxis()->SetTitle("Time");
+		g1->SetLineWidth(1);
+		g1->SetMarkerColor(1);
+		g1->SetMarkerStyle(1);
+			
+		mg -> Add(g1);	
   }
   
-  g1->Write();
-  BM1DTree->Write();
-  fOut->Close();
-  
+  if(draw)
+  {
+		g1->Draw();
+		mg -> Draw();
+  }
+
 }
 

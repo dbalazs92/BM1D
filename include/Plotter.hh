@@ -17,16 +17,19 @@
 #include "TCanvas.h"
 #include "TGraph.h"
 #include "TTree.h"
+#include "TMultiGraph.h"
 
-class Plotter {
+class Plotter
+{
 public:
-  Plotter();
-  void Plot(Int_t n, std::vector<Double_t> t, std::vector<Double_t> x);
+  Plotter(bool draw);
+  void Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::vector<Double_t> x);
+  
 private:
+  bool draw;
+  TMultiGraph *mg;
   TGraph* g1;
-  TFile* fOut;
   TCanvas* canv;
-  TTree *BM1DTree;
   Double_t tl,xl;
 };
 #endif
