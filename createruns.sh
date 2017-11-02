@@ -51,7 +51,7 @@ case $type in
 	
     g)
     if [ $# -ne 8 ]; then #if too few arguments given
-        echo "USAGE (Gauss): $0 $1 NumberofSteps NumberofRuns Mu1 Sigma1 Visible Filename"
+        echo "USAGE (Gauss): $0 $1 NumberofSteps NumberofRuns P0 Mu1 Sigma1 Visible Filename"
 		echo "Follow the next steps (Don't leave blank):"
         read -p 'Number of Steps= ' NumberOfSteps
         read -p 'Number of Runs= ' NumberOfRuns
