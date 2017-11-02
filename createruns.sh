@@ -50,23 +50,25 @@ case $type in
     ;;
 	
     g)
-    if [ $# -ne 7 ]; then #if too few arguments given
+    if [ $# -ne 8 ]; then #if too few arguments given
         echo "USAGE (Gauss): $0 $1 NumberofSteps NumberofRuns Mu1 Sigma1 Visible Filename"
 		echo "Follow the next steps (Don't leave blank):"
         read -p 'Number of Steps= ' NumberOfSteps
         read -p 'Number of Runs= ' NumberOfRuns
+		read -p 'P0= ' P0
         read -p 'Mu1= ' Mu1
         read -p 'Sigma1= ' Sigma1
         read -p 'Visible= ' Visible
 		read -p 'ROOT file name+extension(root)= ' Filename
-		echo "Next time you can use this: $0 $type $NumberOfSteps $NumberOfRuns $Mu1 $Sigma1 $Visible $Filename"
-    else if [ $# -eq 7 ]; then #set the needed variables
+		echo "Next time you can use this: $0 $type $NumberOfSteps $NumberOfRuns $P0 $Mu1 $Sigma1 $Visible $Filename"
+    else if [ $# -eq 8 ]; then #set the needed variables
 		NumberOfSteps=$2
         NumberOfRuns=$3
-		Mu1=$4
-		Sigma1=$5
-		Visible=$6
-		Filename=$7
+		P0=$4
+		Mu1=$5
+		Sigma1=$6
+		Visible=$7
+		Filename=$8
     fi
 	fi
 	$EXECUTABLE $NumberOfSteps $NumberOfRuns $P0 $P1 $x1 $x2 $Mu1 $Mu2 $Sigma1 $Sigma2 $Filename $type $Visible $Typeofrun
