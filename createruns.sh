@@ -16,6 +16,7 @@ Visible=0
 Typeofrun=0
 Filename="result.root"
 
+
 if [ $# -lt 1 ]; then
 	echo "u for uniform"
 	echo "g for gauss"
@@ -26,8 +27,8 @@ fi
 case $type in
 
     u)
-    if [ $# -ne 8 ]; then #if too few arguments given
-        echo "USAGE (Uniform): $0 $1 NumberofSteps NumberofRuns P0 P1 Visible"
+    if [ $# -ne 7 ]; then #if too few arguments given
+        echo "USAGE (Uniform): $0 $1 NumberofSteps NumberofRuns P0 P1 Visible Filename"
 		echo "Follow the next steps (Don't leave blank):"
         read -p 'Number of Steps= ' NumberOfSteps
         read -p 'Number of Runs= ' NumberOfRuns
@@ -35,7 +36,8 @@ case $type in
         read -p 'P1= ' P1
 		read -p 'Visible= ' Visible
 		read -p 'ROOT file name+extension(root)= ' Filename
-    else if [ $# -eq 8 ]; then #set the needed variables
+		echo "Next time you can use this: $0 $type $NumberOfSteps $NumberOfRuns $P0 $P1 $Visible $Filename"
+    else if [ $# -eq 7 ]; then #set the needed variables
         NumberOfSteps=$2
         NumberOfRuns=$3
         P0=$4
@@ -48,7 +50,7 @@ case $type in
     ;;
 	
     g)
-    if [ $# -ne 8 ]; then #if too few arguments given
+    if [ $# -ne 7 ]; then #if too few arguments given
         echo "USAGE (Gauss): $0 $1 NumberofSteps NumberofRuns Mu1 Sigma1 Visible Filename"
 		echo "Follow the next steps (Don't leave blank):"
         read -p 'Number of Steps= ' NumberOfSteps
@@ -57,7 +59,8 @@ case $type in
         read -p 'Sigma1= ' Sigma1
         read -p 'Visible= ' Visible
 		read -p 'ROOT file name+extension(root)= ' Filename
-    else if [ $# -eq 8 ]; then #set the needed variables
+		echo "Next time you can use this: $0 $type $NumberOfSteps $NumberOfRuns $Mu1 $Sigma1 $Visible $Filename"
+    else if [ $# -eq 7 ]; then #set the needed variables
 		NumberOfSteps=$2
         NumberOfRuns=$3
 		Mu1=$4
@@ -70,7 +73,7 @@ case $type in
     ;;
 	
     l)
-    if [ $# -ne 13 ]; then
+    if [ $# -ne 12 ]; then
         echo "USAGE(Layer): $0 $1 NumberofSteps NumberofRuns P0 x1 x2 Mu1 Mu2 Sigma1 Sigma2 Visible Filename"
 		echo "Follow the next steps (Don't leave blank):"
         read -p 'Number of Steps= ' NumberOfSteps
@@ -84,7 +87,8 @@ case $type in
 		read -p 'Sigma2= ' Sigma2
         read -p 'Visible= ' Visible
 		read -p 'ROOT file name+extension(root)= ' Filename
-    else if [ $# -eq 13 ]; then
+		echo "Next time you can use this: $0 $type $NumberOfSteps $NumberOfRuns $P0 $x1 $x2 $Mu1 $Sigma1 $Mu2 $Sigma2 $Visible $Filename"
+    else if [ $# -eq 12 ]; then
          NumberOfSteps=$2
 		 NumberofRuns=$3
 		 P0=$4
