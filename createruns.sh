@@ -13,7 +13,7 @@ Mu2=0
 Sigma1=0
 Sigma2=0
 Visible=0
-Typeofrun=0
+Typeofrun=1
 Filename="result.root"
 
 
@@ -21,6 +21,9 @@ if [ $# -lt 1 ]; then
 	echo "u for uniform"
 	echo "g for gauss"
 	echo "l for layer"
+    echo "ua for uniform analyze"
+    echo "ga for auss analyze"
+    echo "la for layer analyze"
 	read -p 'Type: ' type #type get it's value here, or from command line
 fi
 
@@ -106,7 +109,61 @@ case $type in
 	fi
 	$EXECUTABLE $NumberOfSteps $NumberOfRuns $P0 $P1 $x1 $x2 $Mu1 $Mu2 $Sigma1 $Sigma2 $Filename $type $Visible $Typeofrun
     ;;
-	
+
+    ua)
+    if [ $# -ne 3 ]; then #if too few arguments given
+        echo "USAGE (Uniform analyze): $0 $1 Filename"
+        echo "Follow the next steps (Don't leave blank):"
+        read -p 'ROOT file name+extension(.root)= ' Filename
+        read -p 'Visible= ' Visible
+        echo "Next time you can use this: $0 $type $Filename $Visible"
+        type="u"
+        Typeofrun=0
+    else if [ $# -eq 3 ]; then #set the needed variables
+        Filename=$2
+        Visible=$3
+        Typeofrun=0
+    fi
+    fi
+    $EXECUTABLE $NumberOfSteps $NumberOfRuns $P0 $P1 $x1 $x2 $Mu1 $Mu2 $Sigma1 $Sigma2 $Filename $type $Visible     $Typeofrun
+    ;;
+
+    ga)
+    if [ $# -ne 3 ]; then #if too few arguments given
+        echo "USAGE (Gauss analyze): $0 $1 Filename"
+        echo "Follow the next steps (Don't leave blank):"
+        read -p 'ROOT file name+extension(.root)= ' Filename
+        read -p 'Visible= ' Visible
+        echo "Next time you can use this: $0 $type $Filename $Visible"
+        type="g"
+        Typeofrun=0
+    else if [ $# -eq 3 ]; then #set the needed variables
+        Filename=$2
+        Visible=$3
+        Typeofrun=0
+    fi
+    fi
+    $EXECUTABLE $NumberOfSteps $NumberOfRuns $P0 $P1 $x1 $x2 $Mu1 $Mu2 $Sigma1 $Sigma2 $Filename $type $Visible $Typeofrun
+    ;;
+
+    la)
+    if [ $# -ne 3 ]; then #if too few arguments given
+        echo "USAGE (Layer analyze): $0 $1 Filename"
+        echo "Follow the next steps (Don't leave blank):"
+        read -p 'ROOT file name+extension(.root)= ' Filename
+        read -p 'Visible= ' Visible
+        echo "Next time you can use this: $0 $type $Filename $Visible"
+        type="l"
+        Typeofrun=0
+    else if [ $# -eq 3 ]; then #set the needed variables
+        Filename=$2
+        Visible=$3
+        Typeofrun=0
+        fi
+        fi
+    $EXECUTABLE $NumberOfSteps $NumberOfRuns $P0 $P1 $x1 $x2 $Mu1 $Mu2 $Sigma1 $Sigma2 $Filename $type $Visible $Typeofrun
+;;
+
 	help)
 		echo "USAGE:"
 		echo "Simply call $0 and follow the next steps,"
