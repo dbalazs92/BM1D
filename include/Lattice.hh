@@ -36,6 +36,8 @@ public:
 	MuSigma GetMuSigma(Int_t index);
 	
 	Int_t GetLatticeSize(); //number of points in the lattice
+	Int_t GetWidth(); //number of mu values
+	Int_t GetHeight(); //number of sigma values
 	
 	
 private:
@@ -43,6 +45,9 @@ private:
 	Double_t _percent; 
 	
 	std::vector<MuSigma> ms_vect;
+	
+	Int_t _width;
+	Int_t _height;
 	
 
 };

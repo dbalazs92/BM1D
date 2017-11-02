@@ -1,7 +1,7 @@
 #include "Lattice.hh"
 
 
-Lattice::Lattice() : _nop(10), _percent(0.2){;}
+Lattice::Lattice() : _nop(10), _percent(0.2), _width(10), _height(10){;}
 
 Lattice::~Lattice(){;}
 
@@ -34,6 +34,18 @@ Int_t Lattice::GetLatticeSize(){
 
 }
 
+Int_t Lattice::GetWidth(){
+	
+	return _width;
+
+}
+
+Int_t Lattice::GetHeight(){
+	
+	return _height;
+
+}
+
 void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){
 
 		Double_t loc_sigma, loc_mu;
@@ -55,24 +67,38 @@ void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){
 			
 		int i = 0;
 		
+		_width = 0;
+		_height = 0;
+		
 		while(loc_mu <= mumax){
 		
 		loc_sigma = sigmin;
+		
+		
 			
 			while(loc_sigma <= sigmax) {
+			
 			
 				ms_vect.push_back(MuSigma());
 				
 				ms_vect[i].mu = loc_mu;
 				ms_vect[i].sigma = loc_sigma;
-								
+				
+				std::cout << "i :  " << ms_vect[i].mu << " " << ms_vect[i].sigma << std::endl;
+			
 				i++;
 				loc_sigma += ds;
+				
+				if(!_width) _height++;
+				
 				}
 				
-			loc_mu += dm;	
+			loc_mu += dm;
+			_width++;	
 			
 		}
+		
+		std::cout << "Width " << _width << " Height " << _height << std::endl;
 	
 }
 
