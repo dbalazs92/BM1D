@@ -2,6 +2,7 @@
 
 Analyse::Analyse() : _p0(0), _mu(0), _sigma(0) {
 	canvA = new TCanvas("cancA","display",800,400);	
+	dxhisto = new TH1D("dxhisto","dxhisto", 50, -5.0,5.0);
 	}
 
 Analyse::~Analyse() {;}
@@ -22,6 +23,10 @@ Double_t Analyse::GetMu(){
 Double_t Analyse::GetSigma(){
 
 		return _sigma;
+	}
+	
+TH1D* Analyse::GetHist(){	
+	return dxhisto;
 	}
 
 void Analyse::AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x){
@@ -74,15 +79,13 @@ void Analyse::AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x){
 	
 	Int_t nbin = (max-min)/0.1;	
 	
-	TH1D* dxhisto = new TH1D("dxhisto","dxhisto", nbin, min+0.1*min,max+0.1*max);
+	dxhisto = new TH1D("dxhisto","dxhisto", nbin, min+0.1*min,max+0.1*max);
 	
 	for (int i = 0; i < deltax.size(); i++) dxhisto->Fill(deltax[i]);
 	
-	
-	canvA->cd();
-	
 	dxhisto->Fit("gaus");
 	
+	canvA->cd();
 	dxhisto->Draw();
 	
 	_mu = dxhisto->GetFunction("gaus")->GetParameter(1);

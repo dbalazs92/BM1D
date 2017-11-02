@@ -12,6 +12,12 @@
 #include "TMath.h"
 #include "TCanvas.h"
 
+//////////////////////////////////////////////////
+//						//
+//    Estimate p0, mu, sigma for one particle   //
+//						//
+//////////////////////////////////////////////////
+
 
 class Analyse{
 	
@@ -22,6 +28,7 @@ public:
 	Double_t GetP0();
 	Double_t GetMu();
 	Double_t GetSigma();
+	TH1D* GetHist();
 	
 	void AnalyseGaus(std::vector<Double_t> t, std::vector<Double_t> x);
 	
@@ -30,6 +37,7 @@ private:
 	Double_t _mu;
 	Double_t _sigma;
 	TCanvas* canvA;
+	TH1D* dxhisto;
 
 };
 
