@@ -52,14 +52,21 @@ void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){
 		
 		while(loc_mu <= mumax){
 		
-			ms_vect.push_back(MuSigma());
+		loc_sigma = sigmin;
 			
-			ms_vect[i].mu = loc_mu;
-			ms_vect[i].sigma = loc_sigma;
-						
-			i++;
+			while(loc_sigma <= sigmax) {
+			
+				ms_vect.push_back(MuSigma());
+				
+				ms_vect[i].mu = loc_mu;
+				ms_vect[i].sigma = loc_sigma;
+								
+				i++;
+				loc_sigma += ds;
+				}
+				
 			loc_mu += dm;
-			loc_sigma += ds;
+			
 			
 			
 		}

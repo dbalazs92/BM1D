@@ -28,10 +28,10 @@ public:
 	Lattice();
 	~Lattice();
 	
-	void SetNop(Int_t num);
-	void SetPercent(Int_t num);
+	void SetNop(Int_t num); //set the width of the lattice
+	void SetPercent(Int_t num); //set the interval of mu, sigma
 	
-	void SetLattice(Double_t mu_est, Double_t sigma_est);
+	void SetLattice(Double_t mu_est, Double_t sigma_est); //set the lattice around mu_est, sigma_est
 	
 	MuSigma GetMuSigma(Int_t index);
 	
@@ -45,5 +45,15 @@ private:
 
 };
 
+
+/***********************************************************************	
+	example in BM1D.cc 
+	
+	Lattice *myLattice = new Lattice();
+ 	myLattice->SetPercent(15);
+  	myLattice->SetNop(10);
+  	myLattice->SetLattice(myAnalyse->GetMu(), myAnalyse->GetSigma());
+  	
+************************************************************************/
 
 #endif
