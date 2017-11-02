@@ -1,7 +1,7 @@
 #include "Lattice.hh"
 
 
-Lattice::Lattice() : _nop(100), _percent(0.2){;}
+Lattice::Lattice() : _nop(10), _percent(0.2){;}
 
 Lattice::~Lattice(){;}
 
@@ -28,6 +28,11 @@ MuSigma Lattice::GetMuSigma(Int_t index){
 
 }
 
+Int_t Lattice::GetLatticeSize(){
+	
+	return ms_vect.size();
+
+}
 
 void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){
 
@@ -65,12 +70,10 @@ void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){
 				loc_sigma += ds;
 				}
 				
-			loc_mu += dm;
-			
-			
+			loc_mu += dm;	
 			
 		}
-
+	
 }
 
 

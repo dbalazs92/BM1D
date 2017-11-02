@@ -35,6 +35,8 @@ public:
 	
 	MuSigma GetMuSigma(Int_t index);
 	
+	Int_t GetLatticeSize(); //number of points in the lattice
+	
 	
 private:
 	Int_t _nop; //number of points in [mu-_percent; mu+_percent]
@@ -53,6 +55,9 @@ private:
  	myLattice->SetPercent(15);
   	myLattice->SetNop(10);
   	myLattice->SetLattice(myAnalyse->GetMu(), myAnalyse->GetSigma());
+  	
+  	mu_value = myLattice->GetMuSigma(i).mu;
+  	sigma_value = myLattice->GetMuSigma(i).sigma;
   	
 ************************************************************************/
 
