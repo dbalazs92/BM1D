@@ -12,47 +12,30 @@ int main(int argc, char* argv[])
     Int_t nSteps, nRuns;
 	Double_t p0,p1,x1,x2;
     Double_t mu1, mu2, sigma1, sigma2;
-	const char* fileName="input.root";
-    char random_type='u';
+	Double_t j_mu1, j_sigma1;//////////////////////
+	Double_t rat;//////////////////////
+    const char* fileName="input.root";
+    char random_type='j';
     Int_t vis, typeOfRun;
 
     nSteps=nRuns=vis=typeOfRun=0;
-    mu1=mu2=sigma1=sigma2=p0=p1=x1=x2=0.0;
-    if(argc==15)
-    {
-        nSteps=atoi(argv[1]);
-        nRuns=atoi(argv[2]);
-        p0=atof(argv[3]);
-        p1=atof(argv[4]);
-        x1=atof(argv[5]);
-        x2=atof(argv[6]);
-        mu1=atof(argv[7]);
-        mu2=atof(argv[8]);
-        sigma1=atof(argv[9]);
-        sigma2=atof(argv[10]);
-        fileName=argv[11];
-        random_type=argv[12][0];
-        vis=atoi(argv[13]); if((vis!=0)&&(vis!=1)){vis=0;}
-        typeOfRun=atoi(argv[14]); if((typeOfRun!=0)&&(typeOfRun!=1)&&(typeOfRun!=2)){typeOfRun=0;}
-    }
-    else
-    {
         //default runs with less parameters
-		random_type = 'g';
+		random_type = 'j';
 		nSteps = 1000;
-		nRuns = 1;
-		p0 = 0.5;
+		nRuns = 5;
+		p0 = 0;
 		p1 = 0;
-		x1 = 0;
-		x2 = 0;
+		x1 = 200000;
+		x2 = 200000;
 		mu1 = 1;
-		mu2 = 0;
-		sigma1 = 2;
-		sigma2 = 0;
+		mu2 = -6;
+		sigma1 = 0.8;
+		sigma2 = 0.2;
 		vis = 1;
 		typeOfRun = 1;
-    }
-
+        j_mu1=-25; 
+        j_sigma1=0.3;
+        rat=0.9;     
 
   TApplication App("tapp", &argc, argv);
   BM1DProcess *myBM1DProcess = new BM1DProcess();
@@ -66,22 +49,43 @@ int main(int argc, char* argv[])
         case 'l':
             myBM1DProcess->Run(nRuns, nSteps, p0, x1, x2, mu1, sigma1, mu2, sigma2);
             break;
+        case 'j':
+            myBM1DProcess->Run(nRuns, nSteps, p0, x1, x2, mu1, sigma1, mu2, sigma2, j_mu1, j_sigma1, rat);
+            //cout << "\nOK\n";
+            break;
         default:
             cout<<"ERROR! Wrong parameter for type of random generator! \n No run!"<<endl;
             break;
     }
 
+  
+  TH1D *hJump = new TH1D("h", "test", 100, -30., 30.);                         
+  hJump->Sumw2();                                                          
+  std::vector<Double_t> x = myBM1DProcess->GetX();                                                   
+  hJump->Fill(0);
+  for(int i=1; i<x.size(); i++){
+    hJump->Fill(x[i]-x[i-1]);
+  }    
+  hJump->Draw();
+
+ // std::cout << "Pontok szama: "<< x.size() << "\n";
+  
+  
   Plotter* myPlotter = new Plotter(vis==1);
   myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX()); 
+
+
+
+
+
+ // Analyse *myAnalyse = new Analyse();
   
-  Analyse *myAnalyse = new Analyse();
-  
-  switch(random_type){
-  	case 'g' :
-  	  myAnalyse->AnalyseGaus(myBM1DProcess->GetT(),myBM1DProcess->GetX());
-  }
-  BM1DSave *save = new BM1DSave();
-  save->SaveToTree(myPlotter->GetTmultiGraph(), p0, p1, nSteps, nRuns, x1, x2, mu1, mu2, sigma1, sigma2, myBM1DProcess->GetT(), myBM1DProcess->GetX(),fileName);
+ // switch(random_type){
+ // 	case 'g' :
+ // 	  myAnalyse->AnalyseGaus(myBM1DProcess->GetT(),myBM1DProcess->GetX());
+//  }
+//  BM1DSave *save = new BM1DSave();
+//  save->SaveToTree(myPlotter->GetTmultiGraph(), p0, p1, nSteps, nRuns, x1, x2, mu1, mu2, sigma1, sigma2, myBM1DProcess->GetT(), myBM1DProcess->GetX(),fileName);
   App.Run();
   return 0;
 }
