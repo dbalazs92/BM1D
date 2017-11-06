@@ -1,5 +1,6 @@
-#ifndef Lattice_h
-#define LAttice_h 1
+//#ifndef Lattice_h
+//#define LAttice_h 1
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -29,15 +30,20 @@ public:
 	~Lattice();
 	
 	void SetNop(Int_t num); //set the width of the lattice
-	void SetPercent(Int_t num); //set the interval of mu, sigma
+	void SetPercent(Double_t num); //set the interval of mu, sigma
 	
 	void SetLattice(Double_t mu_est, Double_t sigma_est); //set the lattice around mu_est, sigma_est
 	
-	MuSigma GetMuSigma(Int_t index);
+	const MuSigma & GetMuSigma(Int_t index);
 	
 	Int_t GetLatticeSize(); //number of points in the lattice
-	Int_t GetWidth(); //number of mu values
-	Int_t GetHeight(); //number of sigma values
+	const Int_t & GetWidth(); //number of mu values
+	const Int_t & GetHeight(); //number of sigma values
+	
+	const double & GetMuMin();
+	const double & GetMuMax();
+	const double & GetSigmaMin();
+	const double & GetSigmaMax();
 	
 	
 private:
@@ -66,4 +72,4 @@ private:
   	
 ************************************************************************/
 
-#endif
+//#endif

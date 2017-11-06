@@ -24,7 +24,7 @@ class Plotter
 public:
   Plotter(bool draw);
   ~Plotter();
-  void Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::vector<Double_t> x);
+  void Plot(Int_t numRuns, Int_t nSteps, const std::vector<Double_t> & t, const std::vector<Double_t> & x);
   TMultiGraph * GetTmultiGraph();
   
   static unsigned int IDCounter;

@@ -26,7 +26,7 @@ TMultiGraph * Plotter::GetTmultiGraph()
 }
 
 
-void Plotter::Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::vector<Double_t> x)
+void Plotter::Plot(Int_t numRuns, Int_t nSteps,const  std::vector<Double_t>  & t, const  std::vector<Double_t> & x)
 {
   char str[30];
   snprintf(str, 30, "BM1D Plotter canvas%d", ID);
@@ -45,7 +45,10 @@ void Plotter::Plot(Int_t numRuns, Int_t nSteps, std::vector<Double_t> t, std::ve
   
   if(draw)
   {
+		canv -> cd();
 		mg -> Draw("APL");
+		std::cout << "Plotter done" << std::endl;
+	
   }
 
 }

@@ -12,17 +12,18 @@ void Lattice::SetNop(Int_t num){
 }
 
 
-void Lattice::SetPercent(Int_t num){
+void Lattice::SetPercent(Double_t num){
 
 	if((num > 1) && (num <= 100))
 		_percent = num/100.0;
-	
-	else
+	else{
+		_percent = num;
 		std::cout << "Invalid value for percent, set to default" << std::endl;
+		}
 }
 
 
-MuSigma Lattice::GetMuSigma(Int_t index){
+const MuSigma & Lattice::GetMuSigma(Int_t index){
 	
 	return ms_vect[index];
 
@@ -34,16 +35,36 @@ Int_t Lattice::GetLatticeSize(){
 
 }
 
-Int_t Lattice::GetWidth(){
+const Int_t & Lattice::GetWidth(){
 	
 	return _width;
 
 }
 
-Int_t Lattice::GetHeight(){
+const Int_t & Lattice::GetHeight(){
 	
 	return _height;
 
+}
+
+const double & Lattice::GetMuMin()
+{
+	return ms_vect[0].mu;
+}
+
+const double & Lattice::GetMuMax()
+{
+	return ms_vect[ _height * (_width-1)].mu;
+}
+
+const double & Lattice::GetSigmaMin()
+{
+	return ms_vect[0].sigma;
+}
+
+const double & Lattice::GetSigmaMax()
+{
+	return ms_vect[_height -1].sigma;
 }
 
 void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){

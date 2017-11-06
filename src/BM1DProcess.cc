@@ -2,8 +2,11 @@
 
 BM1DProcess::BM1DProcess() 
 {
-  randomGenerator = new TRandom();
-  randomGeneratorGauss = new TRandom();
+  randomGenerator = new TRandom3();
+  randomGenerator -> SetSeed();
+  randomGeneratorGauss = new TRandom3();
+  randomGeneratorGauss -> SetSeed();
+  std::cout << "seed:" << randomGeneratorGauss -> GetSeed() << std::endl;
   
   //jump = new TF1("jump","gaus(0)+gaus(3)",-30,30);
 }
@@ -16,7 +19,7 @@ BM1DProcess::~BM1DProcess()
 }
 
 
-void BM1DProcess::Run(int nRuns, int nSteps, double p0, double p1)
+void BM1DProcess::Run(const int & nRuns, const int & nSteps, const  double & p0, const double & p1)
 {
 	t.clear();
 	x.clear();
@@ -54,8 +57,11 @@ void BM1DProcess::Run(int nRuns, int nSteps, double p0, double p1)
 		}
 }
 
-void BM1DProcess::Run(int nRuns, int nSteps, double p0, double mu, double sigma)
+
+
+void BM1DProcess::Run(const int & nRuns, const int & nSteps, const  double & p0, const double & mu, const double & sigma)
 {
+	
 	t.clear();
 	x.clear();
 	
@@ -82,9 +88,11 @@ void BM1DProcess::Run(int nRuns, int nSteps, double p0, double mu, double sigma)
 						}
 				}						
 		}
+	
+		
 }
 
-void BM1DProcess::Run(int nRuns, int nSteps, double p0, double x1, double x2, double mu1, double sigma1, double mu2, double sigma2)
+void BM1DProcess::Run(const int & nRuns, const int & nSteps, const double & p0, const double & x1, const double & x2, const double & mu1, const double & sigma1, const double &mu2, const double & sigma2)
 {
 	t.clear();
 	x.clear();
@@ -125,7 +133,7 @@ void BM1DProcess::Run(int nRuns, int nSteps, double p0, double x1, double x2, do
 }
 
 
-void BM1DProcess::Run(int nRuns, int nSteps, double p0, double x1, double x2, double mu1, double sigma1, double mu2, double sigma2, double j_mu1, double j_sigma1, double rat)
+void BM1DProcess::Run(const int & nRuns, const int & nSteps, const double & p0, const double & x1, const double & x2, const double & mu1, const double & sigma1, const double &mu2, const double & sigma2, const double & j_mu1, const double & j_sigma1, const double  & rat)
 {
 	t.clear();
 	x.clear();
