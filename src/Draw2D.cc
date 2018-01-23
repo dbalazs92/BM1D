@@ -1,17 +1,17 @@
 #include "Draw2D.hh"
 
-Draw2D::Draw2D(int nop, double percent, int nRunsp, std::vector<Double_t> tp, std::vector<Double_t> xp) //int nop, double percent, int nRunsp, std::vector<Double_t> tp, std::vector<Double_t> xp
+
+Draw2D::Draw2D(int nop, double percent, int nRunsp, std::vector<Double_t> tp, std::vector<Double_t> xp, int nThreads_) //int nop, double percent, int nRunsp, std::vector<Double_t> tp, std::vector<Double_t> xp
 {
 	t = tp;
 	x = xp;
 	nRuns = nRunsp;
 	
-	
+	nThreads =  nThreads_;
+
 	myAnalyse = new Analyse();
 	myAnalyse -> AnalyseGaus(t,x);
-	
-	myCrusher = new Crusher(t,x);
-	
+
 	myLattice = new Lattice();
 	
 	myLattice -> SetNop(nop);
@@ -25,7 +25,12 @@ Draw2D::Draw2D(int nop, double percent, int nRunsp, std::vector<Double_t> tp, st
 	
 	BM1D_histo = new TH2D("BM1D_histo", "BM1D_histo", myLattice -> GetWidth() , myLattice -> GetMuMin(), (myLattice -> GetMuMax()) , myLattice -> GetHeight() ,  myLattice -> GetSigmaMin(),  (myLattice -> GetSigmaMax()) );
 	BM1D_histo2 = new TH2D("BM1D_histo2", "BM1D_histo2",  myLattice -> GetWidth() , myLattice -> GetMuMin(), (myLattice -> GetMuMax()) , myLattice -> GetHeight() ,  myLattice -> GetSigmaMin(),  (myLattice -> GetSigmaMax()) );
-    gr = new TGraph();
+    
+	graphArray.size = myLattice -> GetLatticeSize();
+	graphArray.X    = new double[graphArray.size];
+	graphArray.Y    = new double[graphArray.size];
+	
+	gr = new TGraph(graphArray.size);
 	
 	delete myAnalyse;
 }
@@ -44,47 +49,69 @@ Draw2D::~Draw2D()
 	delete gr;
 	
 	delete myLattice;
-	delete myCrusher;
+	 
+	delete[] graphArray.X;
+	delete[] graphArray.Y;
 }
+
+
 
 void Draw2D::Histo2D()
 {
-	double XbinSize = (myLattice -> GetMuMax() - myLattice -> GetMuMin())/ myLattice -> GetWidth() ;
-	double YbinSize =( myLattice -> GetSigmaMax() -  myLattice -> GetSigmaMin() ) / myLattice -> GetHeight();
-	
-	double graphArrayX[myLattice -> GetLatticeSize()] = {};
-	double graphArrayY[myLattice -> GetLatticeSize()] = {}; 
-	
 	std::cout << "maxSigma:" <<  myLattice -> GetSigmaMax() << std::endl;
 	std::cout << "maxMu:" <<   myLattice -> GetMuMax() << std::endl;
 	std::cout << "minSigma:" <<  myLattice -> GetSigmaMin() << std::endl;
 	std::cout << "minMu:" <<   myLattice -> GetMuMin() << std::endl;
 	
-	for(int i = 0; i < 	(myLattice -> GetLatticeSize()); i++) 
-		{
-			std::cout<<"progress: "<<i<<"/"<<myLattice -> GetLatticeSize()<<"point\n";
-			
-			if(myCrusher -> RunMachine(nRuns, myLattice -> GetMuSigma(i)))
-				{
-					BM1D_histo -> Fill((i /  myLattice -> GetHeight()) * XbinSize + (XbinSize/2) + myLattice -> GetMuMin(),(i % myLattice -> GetHeight()) * YbinSize + (YbinSize/2) + myLattice -> GetSigmaMin() );
-					BM1D_histo2 -> Fill((i /  myLattice -> GetHeight()) * XbinSize + (XbinSize/2) + myLattice -> GetMuMin(),(i % myLattice -> GetHeight()) * YbinSize + (YbinSize/2) + myLattice -> GetSigmaMin());
-					
-					graphArrayX[i] = (i /  myLattice -> GetHeight()) * XbinSize;
-					graphArrayY[i] = (i % myLattice -> GetHeight()) * YbinSize;
-						
-				}
-			
-		}
 	
-			
+	pthread_t thread[2];
+	Draw2DWorkerThread *worker[2];
+	
+    pthread_attr_t attr;
+	
+	pthread_mutex_t histoMutex;
+	pthread_mutex_init(&histoMutex, NULL);
+    int rc;
+
+    void *status;
+
+	
+	
+	worker[0] = new Draw2DWorkerThread(0, (myLattice -> GetLatticeSize()/2), x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
+	worker[1] = new Draw2DWorkerThread((myLattice -> GetLatticeSize()/2), (myLattice -> GetLatticeSize()/2), x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
+	
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    for(int i=0; i<2; i++)
+	{
+       std::cout<<"creating thread:"<<i<<std::endl;
+       rc = pthread_create(&thread[i], &attr, (THREADFUNCPTR) &Draw2DWorkerThread::WorkerFunction, (void *)worker[i]);  
+       if (rc) 
+	   {
+          std::cout<<"ERROR; pthread:"<<i<<"create failed!"<<std::endl;
+		  exit(-1);
+       }
+    }
+	
+    pthread_attr_destroy(&attr);
+	
+    for(int i=0; i<2; i++)
+	{
+       rc = pthread_join(thread[i], &status);
+       if (rc) 
+	   {
+          std::cout<<"ERROR; pthread:"<<i<<"join failed!"<<std::endl;
+          exit(-1);
+       }
+	}
+	
 	std::cout << "RunMachine done" << std::endl;
 		
-	//TGraph *gr = new TGraph(myLattice -> GetLatticeSize(),graphArrayX,graphArrayY);
-	
+		
 	gr -> SetMarkerColor(46);	
 	canvasB2 -> cd();
-	//gr -> LineStyle()
-	gr -> DrawGraph(myLattice -> GetLatticeSize(),graphArrayX,graphArrayY,"AP*");
+	gr -> DrawGraph(graphArray.size, graphArray.X, graphArray.Y, "AP*");
 
 	BM1D_histo -> SetMarkerStyle(kFullCircle);
 	BM1D_histo-> SetMarkerStyle(21);
@@ -94,5 +121,6 @@ void Draw2D::Histo2D()
 	canvasB -> cd(2);	
 	BM1D_histo2 -> Draw("COLZ");
 
-	std::cout << "Histo done" << std::endl;
+	std::cout << "Histo draw done" << std::endl;
 }
+

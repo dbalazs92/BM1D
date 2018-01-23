@@ -105,7 +105,7 @@ void Lattice::SetLattice(Double_t mu_est, Double_t sigma_est){
 				ms_vect[i].mu = loc_mu;
 				ms_vect[i].sigma = loc_sigma;
 				
-				std::cout << "i :  " << ms_vect[i].mu << " " << ms_vect[i].sigma << std::endl;
+				//std::cout << "i :  " << ms_vect[i].mu << " " << ms_vect[i].sigma << std::endl;
 			
 				i++;
 				loc_sigma += ds;

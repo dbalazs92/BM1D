@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
         rat=0.9;
 
 		percent = 0.99; 
-		nGenerated = 8000;
+		nGenerated = 4000;
 		nop = 30;
 		
 		vis = 1;
@@ -114,7 +114,10 @@ int main(int argc, char* argv[])
 	Plotter* myPlotter = new Plotter(vis==1);
 	myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX()); 
   
-  Draw2D *myDraw2D = new Draw2D(nop, percent, nGenerated, myBM1DProcess->GetT(), myBM1DProcess->GetX()); //nop percent nruns
+  //int numCPU = sysconf(_SC_NPROCESSORS_ONLN);
+  //std::cout <<"cpus:"<<numCPU <<std::endl;
+  
+  Draw2D *myDraw2D = new Draw2D(nop, percent, nGenerated, myBM1DProcess->GetT(), myBM1DProcess->GetX(),2); //nop percent nruns
   
   switch(random_type){
   	case 'g' :

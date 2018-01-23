@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     {
         //default runs with less parameters
 		random_type = 'g';
-		nSteps = 1000;
+		nSteps = 100;
 		nRuns = 1;
 		p0 = 0.5;
 		p1 = 0;
