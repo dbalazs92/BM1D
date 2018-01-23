@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 		//todo fix  parameters
 		percent = 0.99; 
 		nGenerated = 7000;
-		nop = 30;
+		nop = 43;
 		
 		j_mu1=-25; 
         j_sigma1=0.3;
@@ -71,8 +71,8 @@ int main(int argc, char* argv[])
         rat=0.9;
 
 		percent = 0.99; 
-		nGenerated = 4000;
-		nop = 30;
+		nGenerated = 8000;
+		nop = 40;
 		
 		vis = 1;
 		typeOfRun = 1;
@@ -114,10 +114,10 @@ int main(int argc, char* argv[])
 	Plotter* myPlotter = new Plotter(vis==1);
 	myPlotter->Plot(nRuns, nSteps, myBM1DProcess->GetT(), myBM1DProcess->GetX()); 
   
-  //int numCPU = sysconf(_SC_NPROCESSORS_ONLN);
-  //std::cout <<"cpus:"<<numCPU <<std::endl;
+  int numCPU = sysconf(_SC_NPROCESSORS_ONLN);
+  std::cout <<"cpus:"<<numCPU <<std::endl;
   
-  Draw2D *myDraw2D = new Draw2D(nop, percent, nGenerated, myBM1DProcess->GetT(), myBM1DProcess->GetX(),2); //nop percent nruns
+  Draw2D *myDraw2D = new Draw2D(nop, percent, nGenerated, myBM1DProcess->GetT(), myBM1DProcess->GetX(),numCPU); //nop percent nruns
   
   switch(random_type){
   	case 'g' :

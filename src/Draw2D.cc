@@ -64,8 +64,8 @@ void Draw2D::Histo2D()
 	std::cout << "minMu:" <<   myLattice -> GetMuMin() << std::endl;
 	
 	
-	pthread_t thread[2];
-	Draw2DWorkerThread *worker[2];
+	pthread_t thread[nThreads];
+	Draw2DWorkerThread *worker[nThreads];
 	
     pthread_attr_t attr;
 	
@@ -74,16 +74,43 @@ void Draw2D::Histo2D()
     int rc;
 
     void *status;
-
 	
+	int jobSize = myLattice -> GetLatticeSize();
+	if(nThreads <= 0 || jobSize <= 0)
+	{
+		 std::cout<<"nThreads >= 1!!"<<std::endl;
+		 exit(-1);
+	}
 	
-	worker[0] = new Draw2DWorkerThread(0, (myLattice -> GetLatticeSize()/2), x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
-	worker[1] = new Draw2DWorkerThread((myLattice -> GetLatticeSize()/2), (myLattice -> GetLatticeSize()/2), x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
+	if(jobSize <= nThreads || nThreads > 32)    //small jobb size or too large nThreads? -> run single thread mode
+	{
+		std::cout<<"strange jobSize or nThread number!! run single thread mode!!"<<std::endl;
+		worker[0] = new Draw2DWorkerThread(0, jobSize, x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
+		nThreads = 1;
+	}
+	else  //normal multi thread run
+	{
+		std::cout<<"Crusher run on "<< nThreads <<"thread"<<std::endl;
+		int jobSliceSize = jobSize / nThreads;
+	
+		for(int i=0; i<nThreads; i++)
+		{
+			if(i == (nThreads - 1))  //larger slice
+			{
+				worker[i] = new Draw2DWorkerThread(jobSliceSize * i, (jobSize - (jobSliceSize * i)), x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
+			}
+			else // normal slices
+			{
+				worker[i] = new Draw2DWorkerThread(jobSliceSize * i, jobSliceSize, x, t, nRuns, myLattice, BM1D_histo, BM1D_histo2, graphArray, &histoMutex);
+			}
+		}
+	}
+	
 	
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-    for(int i=0; i<2; i++)
+    for(int i=0; i<nThreads; i++)
 	{
        std::cout<<"creating thread:"<<i<<std::endl;
        rc = pthread_create(&thread[i], &attr, (THREADFUNCPTR) &Draw2DWorkerThread::WorkerFunction, (void *)worker[i]);  
@@ -96,7 +123,7 @@ void Draw2D::Histo2D()
 	
     pthread_attr_destroy(&attr);
 	
-    for(int i=0; i<2; i++)
+    for(int i=0; i<nThreads; i++)
 	{
        rc = pthread_join(thread[i], &status);
        if (rc) 
@@ -104,6 +131,11 @@ void Draw2D::Histo2D()
           std::cout<<"ERROR; pthread:"<<i<<"join failed!"<<std::endl;
           exit(-1);
        }
+	}
+	
+	for(int i=0; i<nThreads; i++)
+	{
+		delete worker[i];
 	}
 	
 	std::cout << "RunMachine done" << std::endl;
