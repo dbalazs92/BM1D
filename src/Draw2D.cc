@@ -27,8 +27,8 @@ Draw2D::Draw2D(int nop, double percent, int nRunsp, std::vector<Double_t> tp, st
 	BM1D_histo2 = new TH2D("BM1D_histo2", "BM1D_histo2",  myLattice -> GetWidth() , myLattice -> GetMuMin(), (myLattice -> GetMuMax()) , myLattice -> GetHeight() ,  myLattice -> GetSigmaMin(),  (myLattice -> GetSigmaMax()) );
     
 	graphArray.size = myLattice -> GetLatticeSize();
-	graphArray.X    = new double[graphArray.size];
-	graphArray.Y    = new double[graphArray.size];
+	graphArray.X    = new double[graphArray.size] {};
+	graphArray.Y    = new double[graphArray.size] {};
 	
 	gr = new TGraph(graphArray.size);
 	

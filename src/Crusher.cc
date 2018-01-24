@@ -1,23 +1,30 @@
 #include "Crusher.hh"
 
-Crusher::Crusher(std::vector<Double_t> tp, std::vector<Double_t> xp, double p0p)
+Crusher::Crusher(const std::vector<Double_t> & tp, const std::vector<Double_t> & xp, double p0p)
 {
-	nSteps = tp.size();
 	t = tp;
 	x = xp;
 	p0 = p0p;
+
+	nSteps = t.size();
+
+	const double percent = 0.5;
+	BiggerLimit = nSteps * percent;
 	
 	myBM1DProcess = new BM1DProcess();
-	
 }
 
-Crusher::Crusher(std::vector<Double_t> tp, std::vector<Double_t> xp)
+Crusher::Crusher(const std::vector<Double_t> & tp, const  std::vector<Double_t> & xp)
 {
-	nSteps = tp.size();
 	t = tp;
 	x = xp;
 	p0 = 0.5;
-	
+
+	nSteps = t.size();
+
+	const double percent = 0.5;
+	BiggerLimit = nSteps * percent;
+
 	myBM1DProcess = new BM1DProcess();
 }
 
@@ -26,22 +33,23 @@ Crusher::~Crusher()
 	delete myBM1DProcess;
 }
 
-bool Crusher::Bigger(double percent)
+inline bool Crusher::Bigger()
 {
 	int counterBig = 0;
-	double limit = nSteps * percent;
+	//double limit = nSteps * percent;
+	const std::vector<Double_t> & refx = myBM1DProcess -> GetX();
 	
 	for(int i = 0; i < nSteps; i++)
 	{
 		
-		if(myBM1DProcess -> GetX()[i] < x[i]) // reference < origin
+		if(refx[i] < x[i]) // reference < origin
 		{
 			counterBig ++;
 		}
 	}
 	
 	
-	if(counterBig >= limit)
+	if(counterBig >= BiggerLimit)
 	{
 		return true;
 	}
@@ -71,7 +79,7 @@ bool Crusher::RunMachine(const int & nRuns, const MuSigma & parameters)
 			}
 			
 			
-			if(Bigger(0.5))
+			if(Bigger())
 			{
 				counter ++;
 			}

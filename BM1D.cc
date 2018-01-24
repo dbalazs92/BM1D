@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 		//todo fix  parameters
 		percent = 0.99; 
 		nGenerated = 7000;
-		nop = 43;
+		nop = 30;
 		
 		j_mu1=-25; 
         j_sigma1=0.3;

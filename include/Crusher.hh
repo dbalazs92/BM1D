@@ -11,8 +11,10 @@
 class Crusher
 {
 	public:
-		Crusher(std::vector<Double_t> tp, std::vector<Double_t> xp, double p0p);
-		Crusher(std::vector<Double_t> tp, std::vector<Double_t> xp);
+		Crusher(const std::vector<Double_t> & tp, const std::vector<Double_t> & xp, double p0p);
+		Crusher(const std::vector<Double_t> & tp, const std::vector<Double_t> & xp);
+		
+
 		~Crusher();
 		
 		bool RunMachine(const int & nRunsm, const MuSigma & parameters);
@@ -23,13 +25,14 @@ class Crusher
 	private:
 		int nSteps;
 		double p0;
-		std::vector<Double_t> t;
-		std::vector<Double_t> x;
+		double BiggerLimit;
+		std::vector<Double_t>  t;
+		std::vector<Double_t>  x;
 		
 		BM1DProcess *myBM1DProcess;
 		Analyse *myAnalyse;
 		
-		bool Bigger(double percent);
+		inline bool Bigger();
 		
 		std::vector<Double_t> multipleRunVectorT;
 		std::vector<Double_t> multipleRunVectorX;

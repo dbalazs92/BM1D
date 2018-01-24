@@ -1,11 +1,11 @@
 #include "Draw2DWorkerThread.hh"
 
-Draw2DWorkerThread::Draw2DWorkerThread(int jobOffset_, int jobSize_, std::vector<Double_t> x_, std::vector<Double_t> t_, int nRuns_, Lattice *myLattice_, TH2D *BM1D_histo_, TH2D *BM1D_histo2_, struct graphArray graphArray_, pthread_mutex_t *histoMutex_)
+Draw2DWorkerThread::Draw2DWorkerThread(int jobOffset_, int jobSize_, const std::vector<Double_t> & x_, const std::vector<Double_t> & t_, int nRuns_, Lattice *myLattice_, TH2D *BM1D_histo_, TH2D *BM1D_histo2_, struct graphArray graphArray_, pthread_mutex_t *histoMutex_)
 {
 	std::cout << "Draw2DWorkerThread::Draw2DWorkerThread" <<std::endl;
 	//copy to private variables
-	x = x_;
-	t = t_;
+	//x = x_;
+	//t = t_;
 	
 	myLattice = myLattice_;
 	
@@ -21,7 +21,7 @@ Draw2DWorkerThread::Draw2DWorkerThread(int jobOffset_, int jobSize_, std::vector
 	jobSize = jobSize_;
 	
 	//create Crusher instance
-	myCrusher = new Crusher(t,x);
+	myCrusher = new Crusher(t_, x_);
 	
 	//calculate lattice parameters  TODO rework lattice class!!
 	XbinSize = (myLattice -> GetMuMax() - myLattice -> GetMuMin())/ myLattice -> GetWidth() ;
@@ -63,5 +63,5 @@ void Draw2DWorkerThread::WorkerFunction()
 						
 				}
 		}		
- pthread_exit((void*) 0);  //kell?? vagy NULL??	
+ pthread_exit((void*) 0); 
 }
