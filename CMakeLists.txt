@@ -21,6 +21,8 @@ include(${ROOT_USE_FILE})
 #
 include_directories(${PROJECT_SOURCE_DIR}/include ${ROOT_INCLUDE_DIRS})
 
+set(ROOT_LIBRARIES -L${ROOT_LIBRARY_DIR} -lCore -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic)
+
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
